@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.Instant;
 
 @Entity
 @Data
@@ -20,25 +20,7 @@ public class Driver {
     private String fullName;
     private String passportData;
     private String licenseCategory;
-    private Date birthDate;
+    private Instant birthDate;
     private Integer experience;
-//    private List<Car> ownedCars;
-
-//    public void addOwnedCar(Car car) {
-//        ownedCars.add(car);
-//        car.setOwner(this);
-//    }
-//
-//    public void removeOwnedCar(Car car) {
-//        ownedCars.remove(car);
-//        car.setOwner(null);
-//    }
-//
-//    public void replaceCar(Car oldCar, Car newCar) {
-//        ownedCars.remove(oldCar);
-//        ownedCars.add(newCar);
-//        oldCar.setOwner(null);
-//        newCar.setOwner(this);
-//    }
 
 }

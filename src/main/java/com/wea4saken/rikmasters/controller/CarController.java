@@ -56,7 +56,7 @@ public class CarController {
                             @ApiResponse(responseCode = "404", description = "Not Found",
                                             content = @Content)})
     @GetMapping("/{vin}")
-    public ResponseEntity<CarDto> getDetail(@PathVariable("vin") String vin) {
+    public ResponseEntity<CarDto> getCar(@PathVariable("vin") String vin) {
         return ResponseEntity.ok(carService.get(vin));
     }
 
@@ -64,7 +64,7 @@ public class CarController {
                 responses = {@ApiResponse(responseCode = "200", description = "OK", content = @Content),
                             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content)})
     @DeleteMapping("/{vin}")
-    public ResponseEntity<?> deleteDetail(@PathVariable("vin") String vin) {
+    public ResponseEntity<?> deleteCar(@PathVariable("vin") String vin) {
         carService.delete(vin);
         return ResponseEntity.ok().build();
     }
