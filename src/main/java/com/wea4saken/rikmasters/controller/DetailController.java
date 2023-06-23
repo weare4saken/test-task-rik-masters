@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/details")
+@RequestMapping("/detail")
 @RequiredArgsConstructor
 @Tag(name = "Детали")
 public class DetailController {
@@ -31,7 +31,7 @@ public class DetailController {
         return ResponseEntity.status(HttpStatus.CREATED).body(detailService.add(detailDto));
     }
 
-    @Operation(summary = "Редактирование сведений детали", tags = "Детали",
+    @Operation(summary = "Редактирование сведений о детали", tags = "Детали",
                 responses = {@ApiResponse(responseCode = "200", description = "OK",
                                             content = {@Content(mediaType = "application/json",
                                             schema = @Schema(implementation = DetailDto.class))}),

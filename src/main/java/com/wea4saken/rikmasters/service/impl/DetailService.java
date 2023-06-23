@@ -69,9 +69,9 @@ public class DetailService implements CRUDService<DetailDto, String>, FindServic
     }
 
     @Override
-    public boolean validCheck(DetailDto item) {
+    public boolean validCheck(DetailDto detailDto) {
         log.debug("Validation check for detail");
-        return item.getType() != null && !item.getType().isBlank();
+        return detailDto.getType() != null && !detailDto.getType().isBlank();
     }
 
     @Override

@@ -10,6 +10,7 @@ public class DetailDto {
 
     @JsonProperty(access = JsonProperty.Access.READ_WRITE)
     private String serialNumber;
+
     private String type;
 
 }

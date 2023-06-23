@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Id;
+import java.util.List;
 
 @Entity
 @Data
@@ -19,20 +20,7 @@ public class Car {
     private String producer;
     private String model;
     private Integer productionYear;
-//    private List<Part> parts;
+    private List<Detail> details;
     private Driver owner;
-
-//    public void setOwner(Driver owner) {
-//        this.owner = owner;
-//    }
-//
-//    public void addPart(Part part) {
-//        parts.add(part);
-//    }
-//
-//    public void replacePart(Part oldPart, Part newPart) {
-//        parts.remove(oldPart);
-//        parts.add(newPart);
-//    }
 
 }

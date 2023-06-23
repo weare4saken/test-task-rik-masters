@@ -12,6 +12,7 @@ public interface DetailMapper {
     DetailMapper INSTANCE = Mappers.getMapper(DetailMapper.class);
 
     DetailDto toDto(Detail detail);
+
     @Mapping(target = "serialNumber", ignore = true)
     Detail toEntity(DetailDto dto);
 
