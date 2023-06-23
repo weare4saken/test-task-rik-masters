@@ -23,6 +23,7 @@
         <org.junit.jupiter.version>5.9.2</org.junit.jupiter.version>
         <org.mockito.version>5.2.0</org.mockito.version>
         <org.mapstruct.version>1.5.3.Final</org.mapstruct.version>
+        <org.hibernate.javax.persistence>1.0.2.Final</org.hibernate.javax.persistence>
     </properties>
 
     <dependencies>
@@ -40,6 +41,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.1-api</artifactId>
+            <version>${org.hibernate.javax.persistence}</version>
         </dependency>
 
         <dependency>
