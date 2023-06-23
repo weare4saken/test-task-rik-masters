@@ -1,11 +1,10 @@
 package com.wea4saken.rikmasters.model;
 
-import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -20,7 +19,10 @@ public class Car {
     private String producer;
     private String model;
     private Integer productionYear;
+
+    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL)
     private List<Detail> details;
-    private Driver owner;
+    @OneToOne
+    private Driver driver;
 
 }

@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 
 
 @Entity
@@ -14,6 +16,10 @@ import javax.persistence.Entity;
 public class Detail {
 
     private String serialNumber;
+
     private String type;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Car car;
 
 }

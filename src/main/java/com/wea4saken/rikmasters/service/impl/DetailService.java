@@ -5,6 +5,7 @@ import com.wea4saken.rikmasters.dto.DetailDto;
 import com.wea4saken.rikmasters.exception.IncorrectArgumentException;
 import com.wea4saken.rikmasters.exception.ItemNotFoundException;
 import com.wea4saken.rikmasters.mapper.DetailMapper;
+import com.wea4saken.rikmasters.model.Car;
 import com.wea4saken.rikmasters.model.Detail;
 import com.wea4saken.rikmasters.repository.DetailRepository;
 import com.wea4saken.rikmasters.service.CRUDService;
@@ -24,6 +25,7 @@ import java.util.stream.Collectors;
 public class DetailService implements CRUDService<DetailDto, String>, FindService<Detail, String> {
 
     private final DetailRepository detailRepository;
+    private final CarService carService;
 
     @Override
     public DetailDto add(DetailDto detailDto) {
@@ -78,5 +80,18 @@ public class DetailService implements CRUDService<DetailDto, String>, FindServic
     public Detail findById(String serialNumber) {
         log.debug("Finding detail by serialNumber: {}", serialNumber);
         return detailRepository.findById(serialNumber).orElseThrow(ItemNotFoundException::new);
+    }
+
+    public Detail findByType(String type) {
+        log.debug("Finding detail by type: {}", type);
+        return detailRepository.findByType(type).orElseThrow(ItemNotFoundException::new);
+    }
+
+    //TODO: добавить логгер
+    public void addDetail(String vin, String detailType) {
+        Car car = carService.findById(vin);
+        Detail detail = findByType(detailType);
+        detail.setCar(car);
+        detailRepository.save(detail);
     }
 }

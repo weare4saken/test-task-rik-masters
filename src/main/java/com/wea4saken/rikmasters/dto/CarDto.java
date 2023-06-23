@@ -33,8 +33,10 @@ public class CarDto {
     @Min(value = 1980, message = "Production year must be greater than 1980")
     private Integer productionYear;
 
+    @JsonProperty(access = JsonProperty.Access.READ_WRITE)
     private List<Detail> details;
 
-    private Driver owner;
+    @JsonProperty(access = JsonProperty.Access.READ_WRITE)
+    private Driver driver;
 
 }

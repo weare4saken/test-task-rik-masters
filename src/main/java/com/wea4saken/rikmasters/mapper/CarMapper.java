@@ -14,7 +14,7 @@ public interface CarMapper {
     CarDto toDto(Car car);
 
     @Mapping(target = "details", ignore = true)
-    @Mapping(target = "owner", ignore = true)
+    @Mapping(target = "driver", ignore = true)
     Car toEntity(CarDto dto);
 
 }

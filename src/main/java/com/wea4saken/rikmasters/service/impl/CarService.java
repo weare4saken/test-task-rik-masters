@@ -5,6 +5,8 @@ import com.wea4saken.rikmasters.exception.IncorrectArgumentException;
 import com.wea4saken.rikmasters.exception.ItemNotFoundException;
 import com.wea4saken.rikmasters.mapper.CarMapper;
 import com.wea4saken.rikmasters.model.Car;
+import com.wea4saken.rikmasters.model.Detail;
+import com.wea4saken.rikmasters.model.Driver;
 import com.wea4saken.rikmasters.repository.CarRepository;
 import com.wea4saken.rikmasters.service.CRUDService;
 import com.wea4saken.rikmasters.service.FindService;
@@ -23,6 +25,7 @@ import java.util.stream.Collectors;
 public class CarService implements CRUDService<CarDto, String>, FindService<Car, String> {
 
     private final CarRepository carRepository;
+    private final DriverService driverService;
 
     @Override
     public CarDto add(CarDto carDto) {
@@ -79,5 +82,13 @@ public class CarService implements CRUDService<CarDto, String>, FindService<Car,
     public Car findById(String vin) {
         log.debug("Finding car by vin: {}", vin);
         return carRepository.findById(vin).orElseThrow(ItemNotFoundException::new);
+    }
+
+    //TODO: добавить логгер
+    public void addDriver(String vin, Long driverId) {
+        Car car = findById(vin);
+        Driver driver = driverService.findById(driverId);
+        car.setDriver(driver);
+        carRepository.save(car);
     }
 }
