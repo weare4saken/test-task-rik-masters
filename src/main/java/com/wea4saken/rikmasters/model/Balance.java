@@ -17,12 +17,10 @@ public class Balance {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @OneToOne
     private Driver driver;
-
     @Enumerated(EnumType.STRING)
     private Currency currency;
-
     private BigDecimal amount;
+
 }

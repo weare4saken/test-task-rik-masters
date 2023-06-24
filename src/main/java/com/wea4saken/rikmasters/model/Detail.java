@@ -14,9 +14,7 @@ public class Detail {
 
     @Id
     private String serialNumber;
-
     private String type;
-
     @ManyToOne(fetch = FetchType.LAZY)
     private Car car;
 

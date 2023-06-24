@@ -16,6 +16,7 @@ public class DriverDto {
     @JsonIgnore
     private Long id;
 
+    //TODO: чтоб можно было добавлять с тремя словами
     @Pattern(regexp = "\\b\\w+\\s\\w+\\s\\w+\\b", message = "Full name must consist of 3 words")
     private String fullName;
 
@@ -25,6 +26,7 @@ public class DriverDto {
     @Pattern(regexp = "\\d{2} \\d{2} \\d{6}", message = "License category must be in the format 00 00 000000")
     private String licenseCategory;
 
+    //TODO: сделать нормальную дату
     @JsonProperty(access = JsonProperty.Access.READ_WRITE)
     @Pattern(regexp = "\\d{2}-\\d{2}-\\d{4}", message = "Birth date must be in the format dd-MM-yyyy")
     private Instant birthDate;

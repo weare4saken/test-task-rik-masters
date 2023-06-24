@@ -10,6 +10,8 @@ import com.wea4saken.rikmasters.service.CRUDService;
 import com.wea4saken.rikmasters.service.FindService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +32,7 @@ public class DriverService implements CRUDService<DriverDto, Long>, FindService<
         log.debug("Adding driver");
         if(!validCheck(driverDto)) throw new IncorrectArgumentException();
         Driver driver = DriverMapper.INSTANCE.toEntity(driverDto);
+        driverRepository.save(driver);
         log.debug("Driver successfully add");
         return DriverMapper.INSTANCE.toDto(driver);
     }
@@ -49,9 +52,10 @@ public class DriverService implements CRUDService<DriverDto, Long>, FindService<
     }
 
     @Override
-    public List<DriverDto> getAll() {
+    public List<DriverDto> getAll(Integer pageNumber, Integer pageSize) {
         log.debug("Getting all drivers");
-        return driverRepository.findAll()
+        PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageSize, Sort.by("id"));
+        return driverRepository.findAll(pageRequest)
                 .stream()
                 .map(DriverMapper.INSTANCE::toDto)
                 .collect(Collectors.toList());

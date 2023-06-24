@@ -11,6 +11,9 @@ import com.wea4saken.rikmasters.service.CRUDService;
 import com.wea4saken.rikmasters.service.FindService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +34,7 @@ public class CarService implements CRUDService<CarDto, String>, FindService<Car,
         log.debug("Adding car");
         if(!validCheck(carDto)) throw new IncorrectArgumentException();
         Car car = CarMapper.INSTANCE.toEntity(carDto);
+        carRepository.save(car);
         log.debug("Car successfully add");
         return CarMapper.INSTANCE.toDto(car);
     }
@@ -46,9 +50,10 @@ public class CarService implements CRUDService<CarDto, String>, FindService<Car,
     }
 
     @Override
-    public List<CarDto> getAll() {
+    public List<CarDto> getAll(Integer pageNumber, Integer pageSize) {
         log.debug("Getting all cars");
-        return carRepository.findAll()
+        PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageSize, Sort.by("vin"));
+        return carRepository.findAll(pageRequest)
                 .stream()
                 .map(CarMapper.INSTANCE::toDto)
                 .collect(Collectors.toList());
@@ -71,10 +76,12 @@ public class CarService implements CRUDService<CarDto, String>, FindService<Car,
     @Override
     public boolean validCheck(CarDto carDto) {
         return carDto.getVin() != null && !carDto.getVin().isBlank()
+                && carDto.getVin().length() == 17
                 && carDto.getLicensePlate() != null && !carDto.getLicensePlate().isBlank()
+                && carDto.getLicensePlate().length() == 6
                 && carDto.getProducer() != null && !carDto.getProducer().isBlank()
                 && carDto.getModel() != null && !carDto.getModel().isBlank()
-                && carDto.getProductionYear() != null && carDto.getProductionYear() > 1980;
+                && carDto.getProductionYear() != null && carDto.getProductionYear() >= 1980;
     }
 
     @Override

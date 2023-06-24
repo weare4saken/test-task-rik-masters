@@ -47,8 +47,12 @@ public class CarController {
 
     @Operation(summary = "Получить все автомобили", tags = "Автомобили")
     @GetMapping
-    public ResponseEntity<List<CarDto>> getAllCars() {
-        return ResponseEntity.ok(carService.getAll());
+    public ResponseEntity<List<CarDto>> getAllCars(@RequestParam Integer pageNumber,
+                                                   @RequestParam(required = false) Integer pageSize) {
+        if (pageSize == null || pageSize > 10) {
+            return ResponseEntity.ok(carService.getAll(pageNumber, 10));
+        }
+        return ResponseEntity.ok(carService.getAll(pageNumber, pageSize));
     }
 
     @Operation(summary = "Получение автомобиля по VIN-номеру", tags = "Автомобили",

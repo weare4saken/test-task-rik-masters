@@ -19,10 +19,8 @@ public class Car {
     private String producer;
     private String model;
     private Integer productionYear;
-
     @OneToMany(mappedBy = "car", cascade = CascadeType.ALL)
     private List<Detail> details;
-
     @OneToOne
     private Driver driver;
 

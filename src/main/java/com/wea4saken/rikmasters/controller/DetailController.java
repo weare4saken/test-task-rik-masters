@@ -45,8 +45,12 @@ public class DetailController {
 
     @Operation(summary = "Получить все детали", tags = "Детали")
     @GetMapping
-    public ResponseEntity<List<DetailDto>> getAllDetails() {
-        return ResponseEntity.ok(detailService.getAll());
+    public ResponseEntity<List<DetailDto>> getAllDetails(@RequestParam Integer pageNumber,
+                                                         @RequestParam(required = false) Integer pageSize) {
+        if (pageSize == null || pageSize > 10) {
+            return ResponseEntity.ok(detailService.getAll(pageNumber, 10));
+        }
+        return ResponseEntity.ok(detailService.getAll(pageNumber, pageSize));
     }
 
     @Operation(summary = "Получение детали по серийному номеру", tags = "Детали",

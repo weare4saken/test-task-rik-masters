@@ -12,6 +12,8 @@ import com.wea4saken.rikmasters.service.CRUDService;
 import com.wea4saken.rikmasters.service.FindService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +35,7 @@ public class DetailService implements CRUDService<DetailDto, String>, FindServic
         if(!validCheck(detailDto)) throw new IncorrectArgumentException();
         Detail detail = DetailMapper.INSTANCE.toEntity(detailDto);
         detail.setSerialNumber(RandomSerialNumberGenerator.generateSerialNumber());
+        detailRepository.save(detail);
         log.debug("Detail successfully add");
         return DetailMapper.INSTANCE.toDto(detail);
     }
@@ -48,9 +51,10 @@ public class DetailService implements CRUDService<DetailDto, String>, FindServic
     }
 
     @Override
-    public List<DetailDto> getAll() {
+    public List<DetailDto> getAll(Integer pageNumber, Integer pageSize) {
         log.debug("Getting all details");
-        return detailRepository.findAll()
+        PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageSize, Sort.by("serialNumber"));
+        return detailRepository.findAll(pageRequest)
                 .stream()
                 .map(DetailMapper.INSTANCE::toDto)
                 .collect(Collectors.toList());
@@ -82,6 +86,7 @@ public class DetailService implements CRUDService<DetailDto, String>, FindServic
         return detailRepository.findById(serialNumber).orElseThrow(ItemNotFoundException::new);
     }
 
+    //TODO: сделать проверку на IgnoreCase
     public Detail findByType(String type) {
         log.debug("Finding detail by type: {}", type);
         return detailRepository.findByType(type).orElseThrow(ItemNotFoundException::new);

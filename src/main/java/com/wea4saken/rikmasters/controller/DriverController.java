@@ -46,8 +46,12 @@ public class DriverController {
 
     @Operation(summary = "Получить всех водителей", tags = "Водители")
     @GetMapping
-    public ResponseEntity<List<DriverDto>> getAllDrivers() {
-        return ResponseEntity.ok(driverService.getAll());
+    public ResponseEntity<List<DriverDto>> getAllDrivers(@RequestParam Integer pageNumber,
+                                                         @RequestParam(required = false) Integer pageSize) {
+        if (pageSize == null || pageSize > 10) {
+            return ResponseEntity.ok(driverService.getAll(pageNumber, 10));
+        }
+        return ResponseEntity.ok(driverService.getAll(pageNumber, pageSize));
     }
 
     @Operation(summary = "Получение водителя по ID", tags = "Водители",
