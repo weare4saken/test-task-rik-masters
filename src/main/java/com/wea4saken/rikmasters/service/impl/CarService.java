@@ -5,7 +5,6 @@ import com.wea4saken.rikmasters.exception.IncorrectArgumentException;
 import com.wea4saken.rikmasters.exception.ItemNotFoundException;
 import com.wea4saken.rikmasters.mapper.CarMapper;
 import com.wea4saken.rikmasters.model.Car;
-import com.wea4saken.rikmasters.model.Detail;
 import com.wea4saken.rikmasters.model.Driver;
 import com.wea4saken.rikmasters.repository.CarRepository;
 import com.wea4saken.rikmasters.service.CRUDService;

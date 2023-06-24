@@ -17,7 +17,7 @@
     <description>Test task for Rik Masters</description>
 
     <properties>
-        <java.version>11</java.version>
+        <java.version>17</java.version>
         <org.springdoc.version>2.1.0</org.springdoc.version>
         <org.liquibase.version>4.21.1</org.liquibase.version>
         <org.junit.jupiter.version>5.9.2</org.junit.jupiter.version>
