@@ -23,20 +23,20 @@ public class DetailController {
     private final DetailService detailService;
 
     @Operation(summary = "Добавление новой детали", tags = "Детали",
-                responses = {@ApiResponse(responseCode = "201", description = "CREATED",
-                                            content = {@Content(mediaType = "application/json",
-                                            schema = @Schema(implementation = DetailDto.class))})})
+            responses = {@ApiResponse(responseCode = "201", description = "CREATED",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = DetailDto.class))})})
     @PostMapping
     public ResponseEntity<DetailDto> addDetail(@RequestBody DetailDto detailDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(detailService.add(detailDto));
     }
 
     @Operation(summary = "Редактирование сведений о детали", tags = "Детали",
-                responses = {@ApiResponse(responseCode = "200", description = "OK",
-                                            content = {@Content(mediaType = "application/json",
-                                            schema = @Schema(implementation = DetailDto.class))}),
-                            @ApiResponse(responseCode = "404", description = "Not Found",
-                                            content = @Content)})
+            responses = {@ApiResponse(responseCode = "200", description = "OK",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = DetailDto.class))}),
+                    @ApiResponse(responseCode = "404", description = "Not Found",
+                            content = @Content)})
     @PatchMapping("/{serialNumber}")
     public ResponseEntity<DetailDto> updateDetail(@PathVariable("serialNumber") String serialNumber,
                                                   @RequestBody DetailDto detailDto) {
@@ -54,11 +54,11 @@ public class DetailController {
     }
 
     @Operation(summary = "Получение детали по серийному номеру", tags = "Детали",
-                responses = {@ApiResponse(responseCode = "200", description = "OK",
-                                            content = {@Content(mediaType = "application/json",
-                                            schema = @Schema(implementation = DetailDto.class))}),
-                            @ApiResponse(responseCode = "404", description = "Not Found",
-                                            content = @Content)})
+            responses = {@ApiResponse(responseCode = "200", description = "OK",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = DetailDto.class))}),
+                    @ApiResponse(responseCode = "404", description = "Not Found",
+                            content = @Content)})
     @GetMapping("/{serialNumber}")
     public ResponseEntity<DetailDto> getDetail(@PathVariable("serialNumber") String serialNumber) {
         return ResponseEntity.ok(detailService.get(serialNumber));
@@ -66,7 +66,7 @@ public class DetailController {
 
     @Operation(summary = "Удалить деталь", tags = "Детали",
             responses = {@ApiResponse(responseCode = "200", description = "OK", content = @Content),
-                        @ApiResponse(responseCode = "404", description = "Not Found", content = @Content)})
+                    @ApiResponse(responseCode = "404", description = "Not Found", content = @Content)})
     @DeleteMapping("/{serialNumber}")
     public ResponseEntity<?> deleteDetail(@PathVariable("serialNumber") String serialNumber) {
         detailService.delete(serialNumber);

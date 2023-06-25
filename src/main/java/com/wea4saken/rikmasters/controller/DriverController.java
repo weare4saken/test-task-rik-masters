@@ -24,23 +24,23 @@ public class DriverController {
     private final DriverService driverService;
 
     @Operation(summary = "Добавление нового водителя", tags = "Водители",
-                responses = {@ApiResponse(responseCode = "201", description = "CREATED",
-                                            content = {@Content(mediaType = "application/json",
-                                            schema = @Schema(implementation = DriverDto.class))})})
+            responses = {@ApiResponse(responseCode = "201", description = "CREATED",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = DriverDto.class))})})
     @PostMapping
     public ResponseEntity<DriverDto> addDriver(@RequestBody DriverDto driverDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(driverService.add(driverDto));
     }
 
     @Operation(summary = "Редактирование сведений о водителе", tags = "Водители",
-                responses = {@ApiResponse(responseCode = "200", description = "OK",
-                                            content = {@Content(mediaType = "application/json",
-                                            schema = @Schema(implementation = DriverDto.class))}),
-                            @ApiResponse(responseCode = "404", description = "Not Found",
-                                            content = @Content)})
+            responses = {@ApiResponse(responseCode = "200", description = "OK",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = DriverDto.class))}),
+                    @ApiResponse(responseCode = "404", description = "Not Found",
+                            content = @Content)})
     @PatchMapping("/{id}")
     public ResponseEntity<DriverDto> updateDriver(@PathVariable("id") Long id,
-                                            @RequestBody DriverDto driverDto) {
+                                                  @RequestBody DriverDto driverDto) {
         return ResponseEntity.ok(driverService.update(id, driverDto));
     }
 
@@ -55,19 +55,19 @@ public class DriverController {
     }
 
     @Operation(summary = "Получение водителя по ID", tags = "Водители",
-                responses = {@ApiResponse(responseCode = "200", description = "OK",
-                                            content = {@Content(mediaType = "application/json",
-                                            schema = @Schema(implementation = CarDto.class))}),
-                            @ApiResponse(responseCode = "404", description = "Not Found",
-                                            content = @Content)})
+            responses = {@ApiResponse(responseCode = "200", description = "OK",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = CarDto.class))}),
+                    @ApiResponse(responseCode = "404", description = "Not Found",
+                            content = @Content)})
     @GetMapping("/{id}")
     public ResponseEntity<DriverDto> getDriver(@PathVariable("id") Long id) {
         return ResponseEntity.ok(driverService.get(id));
     }
 
     @Operation(summary = "Удалить водителя", tags = "Водители",
-                responses = {@ApiResponse(responseCode = "200", description = "OK", content = @Content),
-                            @ApiResponse(responseCode = "404", description = "Not Found", content = @Content)})
+            responses = {@ApiResponse(responseCode = "200", description = "OK", content = @Content),
+                    @ApiResponse(responseCode = "404", description = "Not Found", content = @Content)})
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteDetail(@PathVariable("id") Long id) {
         driverService.delete(id);

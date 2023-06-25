@@ -13,7 +13,6 @@ public interface DriverMapper {
 
     DriverDto toDto(Driver driver);
 
-    @Mapping(target = "balance", ignore = true)
     Driver toEntity(DriverDto dto);
 
 }

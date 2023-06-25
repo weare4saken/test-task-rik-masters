@@ -6,7 +6,8 @@ import com.wea4saken.rikmasters.model.Balance;
 import com.wea4saken.rikmasters.model.Driver;
 import com.wea4saken.rikmasters.repository.DriverRepository;
 import com.wea4saken.rikmasters.service.BalanceService;
-import com.wea4saken.rikmasters.service.HappyBirthdayService;
+import com.wea4saken.rikmasters.service.BirthdayService;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -20,14 +21,13 @@ import java.util.List;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class AboutDriverService implements BalanceService, HappyBirthdayService {
+public class AboutDriverService implements BalanceService, BirthdayService {
 
     private final DriverRepository driverRepository;
     private final DriverService driverService;
 
     public void deposit(Balance balance, Long idDriver) {
         Driver driver = driverService.findById(idDriver);
-
         if (balance.getCurrency() == Currency.RED) {
             driver.setBalance(driver.getBalance() + balance.getAmount());
         } else if (balance.getCurrency() == Currency.GREEN) {
@@ -35,13 +35,12 @@ public class AboutDriverService implements BalanceService, HappyBirthdayService 
         } else if (balance.getCurrency() == Currency.BLUE) {
             driver.setBalance(driver.getBalance() + balance.getAmount() * 2.5 * 0.6);
         }
-
         driverRepository.save(driver);
+        log.info("Средства успешно начислены на счет водителя с ID {}", idDriver);
     }
 
     public void withdraw(Balance balance, Long idDriver) {
         Driver driver = driverService.findById(idDriver);
-
         if (balance.getCurrency() == Currency.RED) {
             driver.setBalance(driver.getBalance() - balance.getAmount());
         } else if (balance.getCurrency() == Currency.GREEN) {
@@ -49,13 +48,12 @@ public class AboutDriverService implements BalanceService, HappyBirthdayService 
         } else if (balance.getCurrency() == Currency.BLUE) {
             driver.setBalance(driver.getBalance() - balance.getAmount() * 2.5 * 0.6);
         }
-
         driverRepository.save(driver);
+        log.info("Средства успешно сняты со счета водителя с ID {}", idDriver);
     }
 
     public Double getBalance(Currency currency, Long idDriver) {
         Driver driver = driverService.findById(idDriver);
-
         if (currency == Currency.RED) {
             return driver.getBalance();
         } else if (currency == Currency.GREEN) {
@@ -63,10 +61,10 @@ public class AboutDriverService implements BalanceService, HappyBirthdayService 
         } else if (currency == Currency.BLUE) {
             return driver.getBalance() / (2.5 * 0.6);
         }
-
         throw new IncorrectArgumentException();
     }
 
+    @PostConstruct
     @Scheduled(cron = "0 0 * * *")
     public void checkBirthDay() {
         List<String> drivers = driverRepository.findAllBirthdays();

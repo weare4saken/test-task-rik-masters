@@ -1,6 +1,6 @@
 package com.wea4saken.rikmasters.service;
 
-public interface HappyBirthdayService {
+public interface BirthdayService {
 
     public void checkBirthDay();
 

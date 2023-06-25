@@ -32,6 +32,7 @@ public class DriverService implements CRUDService<DriverDto, Long>, FindService<
         log.info("Adding driver");
         if(!validCheck(driverDto)) throw new IncorrectArgumentException();
         Driver driver = DriverMapper.INSTANCE.toEntity(driverDto);
+        driver.setBalance(0.0);
         driverRepository.save(driver);
         log.info("Driver successfully add");
         return DriverMapper.INSTANCE.toDto(driver);

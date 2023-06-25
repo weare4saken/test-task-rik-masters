@@ -8,5 +8,6 @@ CREATE TABLE IF NOT EXISTS driver
     passport_data       VARCHAR(12) NOT NULL,
     license_category    VARCHAR(12) NOT NULL,
     birth_date          DATE NOT NULL,
-    experience          INT NOT NULL
+    experience          INT NOT NULL,
+    balance             FLOAT
 );
