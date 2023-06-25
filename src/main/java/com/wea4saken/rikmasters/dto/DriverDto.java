@@ -26,4 +26,6 @@ public class DriverDto {
 
     private Integer experience;
 
+    private Double balance;
+
 }

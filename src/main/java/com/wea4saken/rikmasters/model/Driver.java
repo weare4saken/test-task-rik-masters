@@ -22,6 +22,7 @@ public class Driver {
     private String licenseCategory;
     private LocalDate birthDate;
     private Integer experience;
+    private Double balance;
 
     @JsonSetter
     public void setBirthDate(LocalDate birthDate) {
