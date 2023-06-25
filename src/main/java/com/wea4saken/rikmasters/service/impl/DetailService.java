@@ -31,28 +31,28 @@ public class DetailService implements CRUDService<DetailDto, String>, FindServic
 
     @Override
     public DetailDto add(DetailDto detailDto) {
-        log.debug("Adding detail");
+        log.info("Adding detail");
         if(!validCheck(detailDto)) throw new IncorrectArgumentException();
         Detail detail = DetailMapper.INSTANCE.toEntity(detailDto);
         detail.setSerialNumber(RandomSerialNumberGenerator.generateSerialNumber());
         detailRepository.save(detail);
-        log.debug("Detail successfully add");
+        log.info("Detail successfully add");
         return DetailMapper.INSTANCE.toDto(detail);
     }
 
     @Override
     public DetailDto update(String serialNumber, DetailDto detailDto) {
-        log.debug("Updating detail by serialNumber: {}", serialNumber);
+        log.info("Updating detail by serialNumber: {}", serialNumber);
         Detail detail = findById(serialNumber);
         detail.setType(detailDto.getType());
         detailRepository.save(detail);
-        log.debug("Info updated for detail: {}", serialNumber);
+        log.info("Info updated for detail: {}", serialNumber);
         return DetailMapper.INSTANCE.toDto(detail);
     }
 
     @Override
     public List<DetailDto> getAll(Integer pageNumber, Integer pageSize) {
-        log.debug("Getting all details");
+        log.info("Getting all details");
         PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageSize, Sort.by("serialNumber"));
         return detailRepository.findAll(pageRequest)
                 .stream()
@@ -62,13 +62,13 @@ public class DetailService implements CRUDService<DetailDto, String>, FindServic
 
     @Override
     public DetailDto get(String serialNumber) {
-        log.debug("Getting detail by serialNumber: {}", serialNumber);
+        log.info("Getting detail by serialNumber: {}", serialNumber);
         return DetailMapper.INSTANCE.toDto(findById(serialNumber));
     }
 
     @Override
     public void delete(String serialNumber) {
-        log.debug("Delete detail by serialNumber: {}", serialNumber);
+        log.info("Delete detail by serialNumber: {}", serialNumber);
         Detail detail = findById(serialNumber);
         detailRepository.delete(detail);
         log.info("Detail deleted successfully");
@@ -76,27 +76,28 @@ public class DetailService implements CRUDService<DetailDto, String>, FindServic
 
     @Override
     public boolean validCheck(DetailDto detailDto) {
-        log.debug("Validation check for detail");
+        log.info("Validation check for detail");
         return detailDto.getType() != null && !detailDto.getType().isBlank();
     }
 
     @Override
     public Detail findById(String serialNumber) {
-        log.debug("Finding detail by serialNumber: {}", serialNumber);
+        log.info("Finding detail by serialNumber: {}", serialNumber);
         return detailRepository.findById(serialNumber).orElseThrow(ItemNotFoundException::new);
     }
 
-    //TODO: сделать проверку на IgnoreCase
     public Detail findByType(String type) {
-        log.debug("Finding detail by type: {}", type);
-        return detailRepository.findByType(type).orElseThrow(ItemNotFoundException::new);
+        log.info("Finding detail by type: {}", type);
+        return detailRepository.findByTypeIgnoreCase(type).orElseThrow(ItemNotFoundException::new);
     }
 
-    //TODO: добавить логгер
     public void addDetail(String vin, String detailType) {
+        log.info("Adding detail of type {} to car with vin {}", detailType, vin);
         Car car = carService.findById(vin);
         Detail detail = findByType(detailType);
         detail.setCar(car);
         detailRepository.save(detail);
+        log.info("Detail successfully added");
     }
+
 }

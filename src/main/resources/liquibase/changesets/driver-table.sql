@@ -7,6 +7,6 @@ CREATE TABLE IF NOT EXISTS driver
     full_name           VARCHAR(80) NOT NULL,
     passport_data       VARCHAR(12) NOT NULL,
     license_category    VARCHAR(12) NOT NULL,
-    birth_date          TIMESTAMP NOT NULL,
+    birth_date          DATE NOT NULL,
     experience          INT NOT NULL
 );

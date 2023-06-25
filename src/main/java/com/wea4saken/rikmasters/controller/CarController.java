@@ -94,4 +94,5 @@ public class CarController {
         detailService.addDetail(vin, type);
         return ResponseEntity.ok().build();
     }
+
 }

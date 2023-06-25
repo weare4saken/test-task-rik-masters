@@ -73,4 +73,5 @@ public class DriverController {
         driverService.delete(id);
         return ResponseEntity.ok().build();
     }
+
 }

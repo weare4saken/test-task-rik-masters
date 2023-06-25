@@ -72,4 +72,5 @@ public class DetailController {
         detailService.delete(serialNumber);
         return ResponseEntity.ok().build();
     }
+
 }

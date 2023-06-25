@@ -15,7 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Instant;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,17 +29,17 @@ public class DriverService implements CRUDService<DriverDto, Long>, FindService<
 
     @Override
     public DriverDto add(DriverDto driverDto) {
-        log.debug("Adding driver");
+        log.info("Adding driver");
         if(!validCheck(driverDto)) throw new IncorrectArgumentException();
         Driver driver = DriverMapper.INSTANCE.toEntity(driverDto);
         driverRepository.save(driver);
-        log.debug("Driver successfully add");
+        log.info("Driver successfully add");
         return DriverMapper.INSTANCE.toDto(driver);
     }
 
     @Override
     public DriverDto update(Long id, DriverDto driverDto) {
-        log.debug("Updating driver by id: {}", id);
+        log.info("Updating driver by id: {}", id);
         Driver driver = findById(id);
         driver.setFullName(driverDto.getFullName());
         driver.setPassportData(driverDto.getPassportData());
@@ -47,13 +47,13 @@ public class DriverService implements CRUDService<DriverDto, Long>, FindService<
         driver.setLicenseCategory(driverDto.getLicenseCategory());
         driver.setExperience(driverDto.getExperience());
         driverRepository.save(driver);
-        log.debug("Info updated for car: {}", id);
+        log.info("Info updated for car: {}", id);
         return DriverMapper.INSTANCE.toDto(driver);
     }
 
     @Override
     public List<DriverDto> getAll(Integer pageNumber, Integer pageSize) {
-        log.debug("Getting all drivers");
+        log.info("Getting all drivers");
         PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageSize, Sort.by("id"));
         return driverRepository.findAll(pageRequest)
                 .stream()
@@ -63,13 +63,13 @@ public class DriverService implements CRUDService<DriverDto, Long>, FindService<
 
     @Override
     public DriverDto get(Long id) {
-        log.debug("Getting driver by id: {}", id);
+        log.info("Getting driver by id: {}", id);
         return DriverMapper.INSTANCE.toDto(findById(id));
     }
 
     @Override
     public void delete(Long id) {
-        log.debug("Delete driver by id: {}", id);
+        log.info("Delete driver by id: {}", id);
         Driver driver = findById(id);
         driverRepository.delete(driver);
         log.info("Driver deleted successfully");
@@ -79,14 +79,15 @@ public class DriverService implements CRUDService<DriverDto, Long>, FindService<
     public boolean validCheck(DriverDto driverDto) {
         return driverDto.getFullName() != null && !driverDto.getFullName().isBlank()
                 && driverDto.getPassportData() != null && !driverDto.getPassportData().isBlank()
-                && driverDto.getLicenseCategory() != null && driverDto.getLicenseCategory().isBlank()
-                && driverDto.getBirthDate() != null && driverDto.getBirthDate().isAfter(Instant.now())
-                && driverDto.getExperience() != null;
+                && driverDto.getLicenseCategory() != null && !driverDto.getLicenseCategory().isBlank()
+                && driverDto.getBirthDate() != null && driverDto.getBirthDate().isBefore(LocalDate.now())
+                && driverDto.getExperience() != null && driverDto.getExperience() > 0;
     }
 
     @Override
     public Driver findById(Long id) {
-        log.debug("Finding car by vin: {}", id);
+        log.info("Finding car by vin: {}", id);
         return driverRepository.findById(id).orElseThrow(ItemNotFoundException::new);
     }
+
 }

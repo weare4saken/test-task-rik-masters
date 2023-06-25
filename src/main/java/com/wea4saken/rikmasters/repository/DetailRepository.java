@@ -9,5 +9,6 @@ import java.util.Optional;
 @Repository
 public interface DetailRepository extends JpaRepository<Detail, String> {
 
-    Optional<Detail> findByType(String type);
+    Optional<Detail> findByTypeIgnoreCase(String type);
+
 }

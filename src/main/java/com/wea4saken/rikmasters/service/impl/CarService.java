@@ -12,7 +12,6 @@ import com.wea4saken.rikmasters.service.FindService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,27 +30,27 @@ public class CarService implements CRUDService<CarDto, String>, FindService<Car,
 
     @Override
     public CarDto add(CarDto carDto) {
-        log.debug("Adding car");
+        log.info("Adding car");
         if(!validCheck(carDto)) throw new IncorrectArgumentException();
         Car car = CarMapper.INSTANCE.toEntity(carDto);
         carRepository.save(car);
-        log.debug("Car successfully add");
+        log.info("Car successfully add");
         return CarMapper.INSTANCE.toDto(car);
     }
 
     @Override
     public CarDto update(String vin, CarDto carDto) {
-        log.debug("Updating car by vin: {}", vin);
+        log.info("Updating car by vin: {}", vin);
         Car car = findById(vin);
         car.setLicensePlate(carDto.getLicensePlate());
         carRepository.save(car);
-        log.debug("Info updated for car: {}", vin);
+        log.info("Info updated for car: {}", vin);
         return CarMapper.INSTANCE.toDto(car);
     }
 
     @Override
     public List<CarDto> getAll(Integer pageNumber, Integer pageSize) {
-        log.debug("Getting all cars");
+        log.info("Getting all cars");
         PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageSize, Sort.by("vin"));
         return carRepository.findAll(pageRequest)
                 .stream()
@@ -61,13 +60,13 @@ public class CarService implements CRUDService<CarDto, String>, FindService<Car,
 
     @Override
     public CarDto get(String vin) {
-        log.debug("Getting car by vin: {}", vin);
+        log.info("Getting car by vin: {}", vin);
         return CarMapper.INSTANCE.toDto(findById(vin));
     }
 
     @Override
     public void delete(String vin) {
-        log.debug("Delete car by vin: {}", vin);
+        log.info("Delete car by vin: {}", vin);
         Car car = findById(vin);
         carRepository.delete(car);
         log.info("Car deleted successfully");
@@ -86,15 +85,17 @@ public class CarService implements CRUDService<CarDto, String>, FindService<Car,
 
     @Override
     public Car findById(String vin) {
-        log.debug("Finding car by vin: {}", vin);
+        log.info("Finding car by vin: {}", vin);
         return carRepository.findById(vin).orElseThrow(ItemNotFoundException::new);
     }
 
-    //TODO: добавить логгер
     public void addDriver(String vin, Long driverId) {
+        log.info("Adding driver with id {} to car with vin {}", driverId, vin);
         Car car = findById(vin);
         Driver driver = driverService.findById(driverId);
         car.setDriver(driver);
         carRepository.save(car);
+        log.info("Driver successfully added");
     }
+
 }
