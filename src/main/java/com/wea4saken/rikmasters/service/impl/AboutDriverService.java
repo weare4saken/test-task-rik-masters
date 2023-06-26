@@ -66,7 +66,7 @@ public class AboutDriverService implements BalanceService, BirthdayService {
 
     @PostConstruct
     @Scheduled(cron = "0 0 * * *")
-    public void checkBirthDay() {
+    public void checkBirthday() {
         List<String> drivers = driverRepository.findAllBirthdays();
         if (!drivers.isEmpty()) {
             log.info("У данных водителей сегодня день рождения {}", drivers);

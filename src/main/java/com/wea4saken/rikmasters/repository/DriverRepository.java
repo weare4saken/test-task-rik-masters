@@ -16,4 +16,5 @@ public interface DriverRepository extends JpaRepository<Driver, Long> {
             "AND EXTRACT(DAY FROM birth_date) = EXTRACT(DAY FROM CURRENT_DATE)",
             nativeQuery = true)
     List<String> findAllBirthdays();
+
 }
