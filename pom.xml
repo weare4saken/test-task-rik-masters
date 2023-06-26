@@ -17,12 +17,13 @@
     <description>Test task for Rik Masters</description>
 
     <properties>
-        <java.version>11</java.version>
-        <org.springdoc.version>2.1.0</org.springdoc.version>
+        <java.version>17</java.version>
+        <org.springdoc.version>2.0.4</org.springdoc.version>
         <org.liquibase.version>4.21.1</org.liquibase.version>
         <org.junit.jupiter.version>5.9.2</org.junit.jupiter.version>
         <org.mockito.version>5.2.0</org.mockito.version>
         <org.mapstruct.version>1.5.3.Final</org.mapstruct.version>
+        <org.hibernate.javax.persistence>1.0.2.Final</org.hibernate.javax.persistence>
     </properties>
 
     <dependencies>
@@ -43,6 +44,12 @@
         </dependency>
 
         <dependency>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.1-api</artifactId>
+            <version>${org.hibernate.javax.persistence}</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
@@ -50,8 +57,8 @@
 
         <dependency>
             <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-starter-common</artifactId>
-            <version>${org.springdoc.version}</version>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>2.0.4</version>
         </dependency>
 
         <dependency>

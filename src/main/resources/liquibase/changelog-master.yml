@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - include:
+      file: liquibase/changesets/driver-table.sql
+
+  - include:
+      file: liquibase/changesets/car-table.sql
+
+  - include:
+      file: liquibase/changesets/detail-table.sql
